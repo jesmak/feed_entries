@@ -48,7 +48,7 @@ page. The same address can't be added twice.
 | Name    | Type   | Description                                                       | Default              |
 | ------- | ------ | ----------------------------------------------------------------- | -------------------- |
 | Address | string | The address of the feed itself, not of the site it belongs to     | required             |
-| Name    | string | Names the feed's device and sensor, and so the sensor's entity id | the feed's own title |
+| Name    | string | Names the feed's device and sensor, and so the sensor's entity id | the feed's own title, else the address |
 
 **Configure** on an entry changes how much it keeps and how often it is fetched. Saving reloads the entry.
 
@@ -66,10 +66,10 @@ One sensor per feed, on a device of its own named like the feed.
 
 | State or attribute | What it holds                                                                                                   |
 | ------------------ | --------------------------------------------------------------------------------------------------------------- |
-| State              | When the newest entry was published, a timestamp. A new entry changes it                                        |
+| State              | When the newest entry was published, a timestamp. A new entry changes it. Unknown when no entry has a date      |
 | `entries`          | The newest entries, newest first when all have a date and in the feed's own order otherwise, up to Entries kept |
 | `feed_title`       | The feed's own title                                                                                            |
-| `feed_link`        | The link the feed gives for itself, usually its site                                                            |
+| `feed_link`        | The link the feed gives for itself, usually its site. Left empty unless it is an http or https address          |
 
 Each entry in `entries` is an object with these fields.
 

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import aiohttp
+import pytest
 from homeassistant import config_entries
 from homeassistant.const import CONF_NAME, CONF_URL
 from homeassistant.core import HomeAssistant
@@ -43,8 +45,13 @@ async def test_a_page_that_isnt_a_feed_is_refused(hass: HomeAssistant, aioclient
     assert result["errors"] == {"base": "not_a_feed"}
 
 
-async def test_an_address_that_doesnt_answer_is_refused(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker) -> None:
-    aioclient_mock.get(URL, status=404)
+@pytest.mark.parametrize(
+    "answer",
+    [{"status": 404}, {"exc": TimeoutError()}, {"exc": aiohttp.ClientConnectionError("refused")}],
+    ids=["status", "timeout", "network"],
+)
+async def test_an_address_that_doesnt_answer_is_refused(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, answer: dict) -> None:
+    aioclient_mock.get(URL, **answer)
     result = await start(hass, {CONF_URL: URL})
     assert result["errors"] == {"base": "cannot_connect"}
 

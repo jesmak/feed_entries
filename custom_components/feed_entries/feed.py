@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from time import struct_time
 from typing import Any
+from urllib.parse import urlsplit
 
 import aiohttp
 import feedparser
@@ -33,6 +34,13 @@ class Feed:
     title: str | None
     link: str | None
     entries: list[dict[str, str]] = field(default_factory=list)
+
+
+def _web_link(value: Any) -> str | None:
+    """The link when it is an absolute http or https address. Home Assistant refuses any other as a device's link."""
+    link = (value or "").strip() if isinstance(value, str) else ""
+    parts = urlsplit(link)
+    return link if parts.scheme in ("http", "https") and parts.hostname else None
 
 
 def _time(value: Any) -> datetime | None:
@@ -71,7 +79,7 @@ def parse(body: bytes, limit: int) -> Feed:
     channel = parsed.get("feed", {})
     return Feed(
         title=(channel.get("title") or "").strip() or None,
-        link=(channel.get("link") or "").strip() or None,
+        link=_web_link(channel.get("link")),
         entries=[entry for _, entry in entries[:limit]],
     )
 

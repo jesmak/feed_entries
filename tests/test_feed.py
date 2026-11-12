@@ -26,8 +26,33 @@ def test_rss_entries_in_feedparsers_shape_with_iso_dates() -> None:
     ]
 
 
-def test_limit_keeps_the_newest() -> None:
+def test_entries_are_cut_to_the_limit() -> None:
     assert [entry["id"] for entry in parse(RSS, 2).entries] == ["1003", "1002"]
+
+
+def test_the_publishing_time_wins_over_the_update_time() -> None:
+    body = ATOM.replace(
+        b"<published>2026-09-01T10:00:00+02:00</published><updated>2026-09-01T10:00:00+02:00</updated>",
+        b"<published>2026-09-01T10:00:00+02:00</published><updated>2026-09-20T10:00:00+02:00</updated>",
+    )
+    older = next(entry for entry in parse(body, 20).entries if entry["title"] == "Older post")
+    assert older["published"] == "2026-09-01T08:00:00+00:00"
+
+
+def test_an_entry_without_an_id_is_known_by_its_link_and_one_without_either_by_its_title() -> None:
+    body = RSS.replace(b'<guid isPermaLink="false">1003</guid>', b"").replace(
+        b'<link>https://news.example.com/2</link>\n<guid isPermaLink="false">1002</guid>', b""
+    )
+    assert [entry["id"] for entry in parse(body, 20).entries] == [
+        "https://news.example.com/3?mtm_campaign=rss&mtm_source=rss",
+        "Second bulletin",
+        "1001",
+    ]
+
+
+def test_the_feeds_own_link_is_kept_only_as_a_web_address() -> None:
+    assert parse(RSS.replace(b"<link>https://news.example.com/</link>", b"<link>/</link>"), 20).link is None
+    assert parse(RSS.replace(b"<link>https://news.example.com/</link>", b"<link>mailto:news@example.com</link>"), 20).link is None
 
 
 def test_atom_oldest_first_is_put_newest_first_and_an_update_time_stands_in_for_publishing() -> None:
