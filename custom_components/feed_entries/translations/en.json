@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Feed entries",
+        "description": "An RSS or Atom feed to follow. Its newest entries become a sensor's attribute for a dashboard card.",
+        "data": {
+          "url": "Address",
+          "name": "Name"
+        },
+        "data_description": {
+          "url": "The address of the feed itself, not of the site it belongs to.",
+          "name": "Names the feed's device and sensor. Leave it empty to use the feed's own title."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "The address couldn't be read. Check it and try again.",
+      "not_a_feed": "The address answered, but not with an RSS or Atom feed."
+    },
+    "abort": {
+      "already_configured": "This feed has already been added."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Feed entries",
+        "data": {
+          "items": "Entries kept",
+          "interval": "Update interval"
+        },
+        "data_description": {
+          "items": "How many of the feed's newest entries the sensor holds.",
+          "interval": "How often the feed is fetched, in minutes."
+        }
+      }
+    }
+  }
+}

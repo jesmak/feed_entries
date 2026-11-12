@@ -1,0 +1,20 @@
+{
+  "domain": "feed_entries",
+  "name": "Feed entries",
+  "codeowners": [
+    "@jesmak"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/jesmak/feed_entries",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/jesmak/feed_entries/issues",
+  "loggers": [
+    "feedparser"
+  ],
+  "requirements": [
+    "feedparser>=6.0.12"
+  ],
+  "version": "1.0.0"
+}

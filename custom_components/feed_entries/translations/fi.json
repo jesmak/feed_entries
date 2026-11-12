@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Syötteen merkinnät",
+        "description": "Seurattava RSS- tai Atom-syöte. Sen uusimmat merkinnät tallennetaan sensorin attribuuttiin kojelaudan korttia varten.",
+        "data": {
+          "url": "Osoite",
+          "name": "Nimi"
+        },
+        "data_description": {
+          "url": "Itse syötteen osoite, ei sen sivuston, jolle syöte kuuluu.",
+          "name": "Syötteen laitteen ja sensorin nimi. Jätä tyhjäksi, jos haluat käyttää syötteen omaa otsikkoa."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Osoitetta ei voitu lukea. Tarkista se ja yritä uudelleen.",
+      "not_a_feed": "Osoite vastasi, mutta ei RSS- tai Atom-syötteellä."
+    },
+    "abort": {
+      "already_configured": "Tämä syöte on jo lisätty."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Syötteen merkinnät",
+        "data": {
+          "items": "Merkintöjä tallessa",
+          "interval": "Päivitysväli"
+        },
+        "data_description": {
+          "items": "Kuinka monta syötteen uusinta merkintää sensori säilyttää.",
+          "interval": "Kuinka usein syöte haetaan, minuutteina."
+        }
+      }
+    }
+  }
+}
