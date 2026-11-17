@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 URL = "https://news.example.com/feed.xml"
 
 # RSS 2.0 as a news site writes it: guids that aren't links, links with campaign tags, RFC 822 dates in a mix of zones,
@@ -32,8 +30,3 @@ ATOM = b"""<?xml version="1.0" encoding="utf-8"?>
 """
 
 HTML = b"<!doctype html><html><head><title>Example</title></head><body><p>Not a feed</p></body></html>"
-
-
-@pytest.fixture(autouse=True)
-def auto_enable_custom_integrations(enable_custom_integrations: None) -> None:
-    return None
