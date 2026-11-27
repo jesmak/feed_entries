@@ -1,6 +1,9 @@
 {
   "domain": "feed_entries",
   "name": "Feed entries",
+  "categories": [
+    "news_social_media"
+  ],
   "codeowners": [
     "@jesmak"
   ],
